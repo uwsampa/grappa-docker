@@ -1,0 +1,3 @@
+#!/bin/bash
+# http://www.wouterdanes.net/2014/04/16/some-docker-tips-and-tricks.html
+docker inspect -f '{{range $k,$v := .Config.Volumes}}{{$k}}{{end}}' grappa-src
