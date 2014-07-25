@@ -1,0 +1,29 @@
+#!/bin/bash
+#############################################
+# Create a new build volume and configure it
+#############################################
+DIR="${BASH_SOURCE%/*}"
+source $DIR/util/common.sh
+
+flag_help() {
+  echo "usage: $0 [options]
+
+  --help                show this message
+  --src=grappa-src      container providing '/grappa' (source code)
+  --build=grappa-build  (new) container providing '/build' volume
+  "
+  exit 1
+}
+
+src='grappa-src'; flag_src() { export src=$1; }
+build='grappa-build'; flag_build() { export build=$1; }
+
+parse_opts $@
+
+# create a data-only container to hold the /build volume
+echo "#> creating data-only container: $build"
+docker run --name $build -v /build busybox
+
+# configure 
+echo "#> configuring new build"
+docker run --volumes-from=$build --volumes-from=$src uwsampa/grappa "/grappa/configure $@"

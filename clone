@@ -8,6 +8,7 @@ flag_help() {
   --help            show this message
   --src=grappa-src  name of the new container we clone into
   "
+  exit 1
 }
 
 SRC='grappa-src'
@@ -22,4 +23,4 @@ docker run --privileged --name $SRC -v /grappa busybox
 
 echo "#> cloning into container: $SRC"
 docker run --privileged --volumes-from $SRC uwsampa/grappa -c \
-  'git clone https://github.com/uwsampa/grappa.git'
+  'git clone https://github.com/uwsampa/grappa.git /grappa'
