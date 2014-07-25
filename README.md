@@ -1,3 +1,64 @@
+Running Grappa is super easy with Docker. Our docker image includes all the dependencies, libraries, tools, compilers that you'll need to build and run Grappa, and this repository contains scripts to make it easy to setup all the images and containers you'll need.
+
+# Getting started
+
+## Install docker
+First, [install Docker](https://docs.docker.com/installation) for your platform.
+
+### OSX
+On OSX, this is made a bit more complicated because you'll actually have to setup a Linux virtual machine to run the docker daemon in. You can follow the instructions on their website. If you have [homebrew](http://brew.sh), then it's as simple as:
+
+~~~ bash
+# if you don't have virtualbox already:
+> brew tap phinze/homebrew-cask && brew install brew-cask
+> brew cask install virtualbox
+# then install docker and its companion vm
+> brew install docker boot2docker
+# initialize and fire up the Linux VM we'll run docker in
+> boot2docker init
+> boot2docker start
+> export DOCKER_HOST=tcp://$(boot2docker ip 2>/dev/null):2375
+~~~
+
+### Verify docker is running
+
+~~~ bash
+# verify that the docker command now works
+> docker version
+Client version: 0.11.1
+Client API version: 1.11
+Go version (client): go1.2.1
+Git commit (client): fb99f99
+Server version: 1.1.1
+Server API version: 1.13
+Git commit (server): bd609d2
+Go version (server): go1.2.1
+~~~
+
+## Setup Grappa
+
+Now we'll actually take advantage of what's in this repository, so clone the repo:
+
+~~~ bash
+# clone this docker helper repo
+> git clone git@github.com:uwsampa/grappa-docker.git
+> cd grappa-docker
+~~~
+
+Now we're going to download the pre-built Grappa environment. We will then use it to clone the actual Grappa source code into a new data-only container. Luckily the details shouldn't matter, you can just call:
+
+~~~ bash
+> ./clone
+~~~
+
+This may take a while — it is, after all, downloading all of the dependencies, including a build of GCC, Boost, MPI, etc.
+
+, but stop after running the install script -- we will use a custom Vagrant VM rather than boot2docker out of the box. This is because even though Docker containers aren't VM's, Docker only works in Linux, so in OSX, we need a Linux VM to run it. On OSX, Docker uses a VM, and the `docker` command just sends commands to the Docker daemon running in the VM.
+
+
+
+------------------
+
 Notes on how I installed and used Docker and set up the Grappa VM stuff
 
 # OSX
