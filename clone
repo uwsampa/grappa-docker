@@ -1,12 +1,25 @@
 #!/bin/bash
+DIR="${BASH_SOURCE%/*}"
+source $DIR/util/common.sh
 
-# function handle_opts
+flag_help() {
+  echo "usage: $0 [options]
 
-echo "#> creating data-only container: grappa-src"
+  --help            show this message
+  --src=grappa-src  name of the new container we clone into
+  "
+}
+
+SRC='grappa-src'
+flag_src() { export SRC=$1; }
+
+parse_opts $@
+
+echo "#> creating data-only container: $SRC"
 # setup data container with grappa source in volume '/grappa'
 # - pulls the grappa-base repository from the registry
-docker run --privileged --name grappa-src -v /grappa busybox
+docker run --privileged --name $SRC -v /grappa busybox
 
-echo "#> cloning into container: grappa-src"
-docker run --privileged --volumes-from grappa-src uwsampa/grappa -c \
+echo "#> cloning into container: $SRC"
+docker run --privileged --volumes-from $SRC uwsampa/grappa -c \
   'git clone https://github.com/uwsampa/grappa.git'
