@@ -1,0 +1,6 @@
+#!/bin/bash
+######################################
+# Run git commands on the source code.
+######################################
+
+docker run --volumes-from=grappa-src -ti uwsampa/grappa -c "cd /grappa; git $@"
