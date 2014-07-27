@@ -14,11 +14,14 @@ flag_help() {
 SRC='grappa-src'
 flag_src() { export SRC=$1; }
 
-parse_opts $@
+remain=$(parse_flags $@)
 
-echo "#> creating data-only container: $SRC"
-# setup data container with grappa source in volume '/grappa'
-# - pulls the grappa-base repository from the registry
+echo "#> pulling grappa image from docker registry"
+# pulls image first time, or update image if anything has changed in the registry
+docker pull uwsampa/grappa
+
+echo "#> creating container for source: $SRC"
+# setup data-only container with grappa source in volume '/grappa'
 docker run --privileged --name $SRC -v /grappa busybox
 
 echo "#> cloning into container: $SRC"

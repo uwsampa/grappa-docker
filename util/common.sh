@@ -1,7 +1,12 @@
-parse_opts() {
+
+parse_flags() {  
   while (( "$#" )); do
     flag=
     case $1 in
+      --)
+        shift
+        break
+        ;;
       --*=*)
         a=${1##--}
         flag=${a%%=*};
@@ -26,4 +31,7 @@ parse_opts() {
     fi
     shift
   done
+  
+  # return the remaining flags to the caller
+  echo -n $@
 }

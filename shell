@@ -18,6 +18,6 @@ flag_help() {
 src='grappa-src'; flag_src() { export src=$1; }
 build='grappa-build'; flag_build() { export build=$1; }
 
-parse_opts $@
+remain=$(parse_flags $@)
 
 docker run --volumes-from=$src --volumes-from=$build -ti --privileged uwsampa/grappa

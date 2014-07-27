@@ -18,7 +18,12 @@ flag_help() {
 src='grappa-src'; flag_src() { export src=$1; }
 build='grappa-build'; flag_build() { export build=$1; }
 
-parse_opts $@
+remain=$(parse_flags $@)
+
+if [[ $(docker ps -a | grep $build | wc -l) -eq 1 ]]; then
+  echo "#> cleaning up previous build"
+  docker rm $build
+fi
 
 # create a data-only container to hold the /build volume
 echo "#> creating data-only container: $build"
@@ -26,4 +31,6 @@ docker run --name $build -v /build busybox
 
 # configure 
 echo "#> configuring new build"
-docker run --volumes-from=$build --volumes-from=$src uwsampa/grappa "/grappa/configure $@"
+echo "@> $args"
+echo "@> \$@ => $@"
+docker run --volumes-from=$build --volumes-from=$src uwsampa/grappa -c "/grappa/configure --build-here $remain"
