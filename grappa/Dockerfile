@@ -12,7 +12,8 @@ RUN apt-get install -y \
   cmake \
   ninja-build \
   git \
-  openssh-server
+  openssh-server \
+  bash-completion
 
 # build recent version of Ruby
 RUN wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz && \
@@ -52,6 +53,8 @@ RUN echo "sudo sysctl -w kernel.shmmax=$((1<<30)) >/dev/null 2>/dev/null" >> /et
 
 # set prompt colors because I'm a bit vain
 RUN echo "export PS1='\[\e[0;34m\]docker \[\e[m\]\[\e[1;32m\]\w\[\e[m\] \[\e[0;33m\]\$ \[\e[m\]'" >> /etc/profile
+
+RUN echo "source /etc/bash_completion" >> /etc/profile
 
 # containers run from this image will expect to have two volumes available: 
 # - /grappa for source code
