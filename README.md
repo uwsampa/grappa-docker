@@ -1,4 +1,4 @@
-Running Grappa is super easy with Docker. Our docker image includes all the dependencies, libraries, tools, compilers that you'll need to build and run Grappa, and this repository contains scripts to make it easy to setup all the images and containers you'll need.
+Running Grappa is super easy with Docker. Our docker image includes all the dependencies, libraries, tools, compilers that you'll need to build and run Grappa, and this repository contains scripts to make it easy to setup and use the containers.
 
 # Getting started
 
@@ -6,7 +6,7 @@ Running Grappa is super easy with Docker. Our docker image includes all the depe
 First, [install Docker](https://docs.docker.com/installation) for your platform.
 
 ### OSX
-On OSX, this is made a bit more complicated because you'll actually have to setup a Linux virtual machine to run the docker daemon in. You can follow the instructions on their website. If you have [homebrew](http://brew.sh), then it's as simple as:
+On OSX, this is made a bit more complicated because you'll actually have to setup a Linux virtual machine to run the docker daemon in. You can follow the instructions on their website, it's pretty easy. If you have [homebrew](http://brew.sh), it's as simple as:
 
 ~~~ bash
 # if you don't have virtualbox already:
@@ -45,17 +45,48 @@ Now we'll actually take advantage of what's in this repository, so clone the rep
 > cd grappa-docker
 ~~~
 
-Now we're going to download the pre-built Grappa environment. We will then use it to clone the actual Grappa source code into a new data-only container. Luckily the details shouldn't matter, you can just call:
+Now we're going to download the pre-built Grappa environment, create a new container, and clone the source code into it.
 
 ~~~ bash
 > ./clone
 ~~~
 
-This may take a while — it is, after all, downloading all of the dependencies, including a build of GCC, Boost, MPI, etc.
+This may take a while — it is, after all, downloading all of the dependencies, including a build of GCC, Boost, MPI, etc. Next, we need to run "configure" on the grappa source code we just cloned. Because this is Docker, we'll create another container to hold the generated build files to keep them separate from the clean source code. The configure script here does this as well as setting the right flags for the docker environment.
 
-, but stop after running the install script -- we will use a custom Vagrant VM rather than boot2docker out of the box. This is because even though Docker containers aren't VM's, Docker only works in Linux, so in OSX, we need a Linux VM to run it. On OSX, Docker uses a VM, and the `docker` command just sends commands to the Docker daemon running in the VM.
+~~~ bash
+> ./configure
+~~~
+
+Now we have everything we need to build and run Grappa, so let's create an interactive shell in the Grappa environment and try building and running something:
+
+~~~ bash
+> ./shell
+docker /build $
+# your prompt is now that of the shell running in the grappa environment
+# look at the grappa source code:
+docker /build $ ls /grappa
+AUTHORS   CMakeLists.txt  NOTICE     applications  configure  scratch  third-party
+BUILD.md  COPYING	  README.md  bin	   doc	      system   util
+
+# build the hello-world demo app (with 4 cores, cuz who's only got one, right?)
+docker /build $ make -j4 demo-hello_world
 
 
+~~~
+
+
+### Advanced: actually understanding what's going on
+
+The `uwsampa/grappa` image expects two data containers, one which provides `/grappa` with the source code in it, and one which contains `/build`, with generated build files in it. We can see these two containers using `docker ps` (`-a` because these containers are data-only, so they aren't technically "running"):
+
+~~~ bash
+> docker ps -a | grep grappa-
+38539cc5499f        busybox:latest      /bin/sh                11 days ago         Exited (0) 40 minutes ago                            grappa-build
+80956d45fb92        busybox:latest      /bin/sh                11 days ago         Exited (0) 10 hours ago                              grappa-src
+~~~
+
+
+When you run `./shell`, you're pulling in these two containers and using them to host your source code and generated files *persistently* between runs.
 
 ------------------
 
