@@ -31,6 +31,4 @@ docker run --name $build -v /build busybox
 
 # configure 
 echo "#> configuring new build"
-echo "@> $args"
-echo "@> \$@ => $@"
 docker run --volumes-from=$build --volumes-from=$src uwsampa/grappa -c "/grappa/configure --build-here $remain"
