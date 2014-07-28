@@ -1,0 +1,9 @@
+image: uwsampa/grappa
+script:
+  - ./clone
+  - ./configure
+  - ./shell -c "make check-all-pass-compile-only"
+notify:
+  email:
+    recipients:
+      - bholt@cs.washington.edu
