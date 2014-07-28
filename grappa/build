@@ -4,4 +4,4 @@
 #################################################################
 DIR="${BASH_SOURCE%/*}"
 
-docker build -t uwsampa/grappa $DIR
+docker build -t uwsampa/grappa --rm=true $DIR

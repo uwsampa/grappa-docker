@@ -54,7 +54,7 @@ RUN adduser --disabled-password --home=/home/grappa --gecos "" grappa sudo
 # have to make sure we re-set shmmax before running any Grappa programs
 RUN echo "sudo sysctl -w kernel.shmmax=$((1<<30)) >/dev/null 2>/dev/null" >> /etc/profile
 
-# set prompt colors because I'm a bit vain
+# set prompt colors because I'm a bit vain about that
 RUN echo "export PS1='\[\e[0;34m\]docker \[\e[m\]\[\e[1;32m\]\w\[\e[m\] \[\e[0;33m\]\$ \[\e[m\]'" >> /etc/profile
 
 RUN echo "source /etc/bash_completion" >> /etc/profile
