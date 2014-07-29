@@ -14,7 +14,7 @@ flag_help() {
 SRC='grappa-src'
 flag_src() { export SRC=$1; }
 
-remain=$(parse_flags $@)
+parse_flags $@
 
 echo "#> pulling grappa image from docker registry"
 # pulls image first time, or update image if anything has changed in the registry

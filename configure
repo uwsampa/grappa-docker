@@ -18,7 +18,7 @@ flag_help() {
 src='grappa-src'; flag_src() { export src=$1; }
 build='grappa-build'; flag_build() { export build=$1; }
 
-remain=$(parse_flags $@)
+parse_flags $@
 
 if [[ $(docker ps -a | grep $build | wc -l) -eq 1 ]]; then
   echo "#> cleaning up previous build"

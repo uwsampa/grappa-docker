@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 ##############################################################
 # Launch a shell in a Grappa container using data containers
 ##############################################################
@@ -8,9 +8,6 @@ source $DIR/util/common.sh
 define_flag 'src' 'grappa-src' "container providing '/grappa' (source code)"
 define_flag 'build' 'grappa-build' "container providing '/build' volume"
 echo ">> FLAGS_src => $FLAGS_src"
-remain=$(parse_flags $@)
+parse_flags $@
 
-# docker run --volumes-from=$src --volumes-from=$build -ti --privileged uwsampa/grappa
-echo $FLAGS_src
-echo "FLAGS_build = $FLAGS_build"
-echo "remain = $remain"
+docker run --volumes-from=$FLAGS_src --volumes-from=$FLAGS_build -ti --privileged uwsampa/grappa
