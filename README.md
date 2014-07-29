@@ -75,7 +75,7 @@ docker /build $ make -j4 demo-hello_world
 ~~~
 
 
-### Advanced: actually understanding what's going on
+### Advanced (actually understanding what's going on)
 
 The `uwsampa/grappa` image expects two data containers, one which provides `/grappa` with the source code in it, and one which contains `/build`, with generated build files in it. We can see these two containers using `docker ps` (`-a` because these containers are data-only, so they aren't technically "running"):
 
