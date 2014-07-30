@@ -44,12 +44,11 @@ RUN grappa/configure --cc=$(which gcc) --gen=Ninja \
   cd build/Ninja+Release && \
   ninja
 
-ENV LD_LIBRARY_PATH    $LD_LIBRARY_PATH:/usr/local/lib
-ENV CC                 /usr/bin/gcc
-ENV CXX                /usr/bin/g++
-ENV GRAPPA_THIRD_PARTY /grappa-third-party
-
-RUN adduser --disabled-password --home=/home/grappa --gecos "" grappa sudo
+ENV LD_LIBRARY_PATH           $LD_LIBRARY_PATH:/usr/local/lib
+ENV CC                        /usr/bin/gcc
+ENV CXX                       /usr/bin/g++
+ENV GRAPPA_THIRD_PARTY        /grappa-third-party
+ENV GRAPPA_ALLOW_RUN_AS_ROOT  1
 
 # have to make sure we re-set shmmax before running any Grappa programs
 RUN echo "sudo sysctl -w kernel.shmmax=$((1<<30)) >/dev/null 2>/dev/null" >> /etc/profile
@@ -66,7 +65,6 @@ RUN echo "source /etc/bash_completion" >> /etc/profile
 # recommended way to do this is to use the `setup` script to generate data volumes
 VOLUME ["/grappa", "/build"]
 WORKDIR /build
-USER grappa
 
 ENTRYPOINT ["/bin/bash"]
 CMD ["--login"]
