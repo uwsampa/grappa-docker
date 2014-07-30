@@ -2,28 +2,17 @@
 DIR="${BASH_SOURCE%/*}"
 source $DIR/util/common.sh
 
-flag_help() {
-  echo "usage: $0 [options]
-
-  --help            show this message
-  --src=grappa-src  name of the new container we clone into
-  "
-  exit 1
-}
-
-SRC='grappa-src'
-flag_src() { export SRC=$1; }
-
+define_flag 'src' 'grappa-src' "container providing '/grappa' (source code)"
 parse_flags $@
 
 echo "#> pulling grappa image from docker registry"
 # pulls image first time, or update image if anything has changed in the registry
 docker pull uwsampa/grappa
 
-echo "#> creating container for source: $SRC"
+echo "#> creating container for source: $FLAGS_src"
 # setup data-only container with grappa source in volume '/grappa'
-docker run --privileged --name $SRC -v /grappa busybox
+docker run --privileged --name $FLAGS_src -v /grappa busybox
 
-echo "#> cloning into container: $SRC"
-docker run --privileged --volumes-from $SRC uwsampa/grappa -c \
+echo "#> cloning into container: $FLAGS_src"
+docker run --privileged --volumes-from $FLAGS_src uwsampa/grappa -c \
   'git clone https://github.com/uwsampa/grappa.git /grappa'

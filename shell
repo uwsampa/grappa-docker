@@ -7,7 +7,6 @@ source $DIR/util/common.sh
 
 define_flag 'src' 'grappa-src' "container providing '/grappa' (source code)"
 define_flag 'build' 'grappa-build' "container providing '/build' volume"
-echo ">> FLAGS_src => $FLAGS_src"
 parse_flags $@
 
 docker run --volumes-from=$FLAGS_src --volumes-from=$FLAGS_build -ti --privileged uwsampa/grappa
