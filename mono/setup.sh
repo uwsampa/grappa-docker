@@ -20,6 +20,8 @@ wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz && \
   make && \
   make install
 
+cd /
+
 # build OpenMPI
 wget http://www.open-mpi.org/software/ompi/v1.8/downloads/openmpi-1.8.1.tar.gz && \
   tar xzf openmpi-1.8.1.tar.gz && \
@@ -27,6 +29,8 @@ wget http://www.open-mpi.org/software/ompi/v1.8/downloads/openmpi-1.8.1.tar.gz &
   CC=$(which gcc) CXX=$(which g++) ./configure --enable-contrib-no-build=vt --prefix=/usr && \
   make && \
   make install
+
+cd /
 
 # clean up
 rm -rf openmpi-1.8.1* ruby-2.1.2*
@@ -40,6 +44,8 @@ cd grappa
               --shmmax=$((1<<30)) && \
   cd build/Ninja+Release && \
   ninja
+
+cd /
 
 # have to make sure we re-set shmmax before running any Grappa programs
 echo "sudo sysctl -w kernel.shmmax=$((1<<30)) >/dev/null 2>/dev/null" >> /etc/profile
