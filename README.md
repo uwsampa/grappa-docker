@@ -10,13 +10,13 @@ On OSX, this is made a bit more complicated because you'll actually have to setu
 
 ~~~ bash
 # if you don't have virtualbox already:
-> brew tap phinze/homebrew-cask && brew install brew-cask
+> brew install caskroom/cask/brew-cask
 > brew cask install virtualbox
 # then install docker and its companion vm
 > brew install docker boot2docker
 # initialize and fire up the Linux VM we'll run docker in
 > boot2docker init
-> boot2docker start
+> boot2docker up
 > export DOCKER_HOST=tcp://$(boot2docker ip 2>/dev/null):2375
 ~~~
 
