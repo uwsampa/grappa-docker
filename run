@@ -1,0 +1,13 @@
+#!/bin/bash
+##############################################################
+# Launch a shell in a Grappa container using data containers
+##############################################################
+DIR="${BASH_SOURCE%/*}"
+source $DIR/util/common.sh
+
+define_flag 'name' 'grappa' "core grappa container"
+parse_flags $@
+
+docker pull uwsampa/grappa:latest
+
+docker run --name=$FLAGS_name -ti --privileged uwsampa/grappa
