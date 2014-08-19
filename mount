@@ -1,0 +1,19 @@
+#!/bin/bash
+################################################################
+# Mount a Docker volume via Samba on the host machine (for OSX)
+################################################################
+if [ $# != 2 ]; then
+  echo "Usage: $0 <image> <mount_point>"
+  exit 0
+fi
+
+image=$1
+mount_point=$2
+
+# share /grappa with host via Samba
+docker run --rm -v /usr/local/bin/docker:/docker -v /var/run/docker.sock:/docker.sock svendowideit/samba $image
+
+# mount the Sampa share on the host
+mkdir -p $mount_point
+umount $mount_point 2>/dev/null || true
+mount -t smbfs //guest:@$(boot2docker ip 2>/dev/null)/grappa $mount_point
