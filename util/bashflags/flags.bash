@@ -1,5 +1,5 @@
 # check if function exists
-function fn_exists{ declare -f $1 >/dev/null; }
+function fn_exists { declare -f $1 >/dev/null; }
 
 #####################################################################
 # Parse flags passed to it. Flags must be pre-defined using 
@@ -54,7 +54,6 @@ function parse_flags {
       #   echo "pos: $1"
       #   ;;
     esac
-    echo ">> $flag -> $val" >&2
     if [[ $flag ]]; then
       if fn_exists "__handle_flag_$flag"; then
         eval "__handle_flag_$flag $val"
@@ -132,6 +131,7 @@ function define_bool_flag {
   long_name=$1
   desc=$3
   short_name=$4
+  default=false
   
   FLAGS_help_msg="$FLAGS_help_msg
   --$long_name=$default  $desc" 
