@@ -22,7 +22,7 @@ if [ -n "$FLAGS_ssh" ]; then
   
   # copy desired keys into new temporary directory
   cd $(mktemp -d)
-  cp "$FLAGS_ssh" "$FLAGS_ssh.pub" .
+  cp "$FLAGS_ssh"{,.pub} .
   
   # copy keys into their rightful place in docker
   # if on OSX, must copy them first into boot2docker and do the copy inside 
@@ -37,8 +37,8 @@ if [ -n "$FLAGS_ssh" ]; then
     Darwin) # Mac OSX
       host=$(boot2docker ip 2>/dev/null)
       identity_file="$HOME/.ssh/id_boot2docker"
-      tar cf -  | ssh -C $host -i $identity_file "
-        cd \$(mktemp -d); tar xpsf -
+      tar cf - . | ssh -C docker@$host -i $identity_file "
+        cd \$(mktemp -d); tar xpsfm -
         $copy_keys_cmd
       "
       ;;
@@ -53,4 +53,5 @@ if [ -n "$FLAGS_ssh" ]; then
   
 fi
 
+echo "#> setup complete; hit <enter>"
 docker attach $FLAGS_name
