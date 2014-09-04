@@ -4,8 +4,11 @@
 FROM ubuntu
 MAINTAINER Grappa Team <grappa@cs.washington.edu>
 
-ADD setup.sh /setup.sh
-RUN bash /setup.sh && rm /setup.sh
+ADD install_dependencies.sh /install_dependencies.sh
+RUN bash /install_dependencies.sh && rm /install_dependencies.sh
+
+ADD setup_environment.sh /setup_environment.sh
+RUN bash /setup_environment.sh && rm /setup_environment.sh
 
 ENV LD_LIBRARY_PATH           $LD_LIBRARY_PATH:/usr/local/lib
 ENV CC                        /usr/bin/gcc
