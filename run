@@ -12,7 +12,7 @@ parse_flags $@
 
 docker pull uwsampa/grappa:latest
 
-# create new container 
+# create new Grappa container (start detached so we can customize it some more)
 id=$(docker run --name=$FLAGS_name -ti -d --privileged uwsampa/grappa)
 
 # copy ssh key into container if specified
