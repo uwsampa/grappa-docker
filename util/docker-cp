@@ -1,0 +1,42 @@
+#!/bin/bash
+##############################################################
+# Launch a shell in a Grappa container using data containers
+##############################################################
+
+if [ $# != 2 ]; then
+  echo "Usage: $0 <source file (on host)> <dest container>:<dest directory>"
+  exit 0
+fi
+
+src=$1             # host file
+container_name=${2/:*/} # destination container
+dst=${2/*:/}       # destination path (in container)
+  
+# copy src files into temp directory
+tmp=$(mktemp -d)
+echo "@> tmp => $tmp"
+cp -r "$src" "$tmp"
+cd $tmp
+
+id=$(docker inspect -f '{{.Id}}' $container_name)
+
+# copy into docker (if in boot2docker, tar and ssh them inside)
+container="/var/lib/docker/aufs/mnt/$id"
+do_copy="
+  sudo mkdir -p $container/$dst;
+  sudo cp -r * $container/$dst
+"
+
+case $(uname) in
+  Darwin) # Mac OSX
+    host=$(boot2docker ip 2>/dev/null)
+    identity_file="$HOME/.ssh/id_boot2docker"
+    tar cf - . | ssh -C docker@$host -i $identity_file "
+      cd \$(mktemp -d); tar xpsfm -
+      $do_copy
+    "
+    ;;
+  
+  *) # Linux
+    eval $do_copy      
+esac
