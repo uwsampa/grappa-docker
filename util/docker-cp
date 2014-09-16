@@ -4,7 +4,15 @@
 ##############################################################
 
 if [ $# != 2 ]; then
-  echo "Usage: $0 <source file (on host)> <dest container>:<dest directory>"
+  echo "
+docker-cp
+---------
+Copy files into a docker container from the host
+(workaround until docker provides a built-in solution)
+
+Usage:
+  $0 <source file (on host)> <dest container>:<dest directory>
+"
   exit 0
 fi
 
