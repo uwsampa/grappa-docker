@@ -46,16 +46,16 @@ Once you have Docker a docker install ready to go, we're ready to try running Gr
 > cd grappa-docker
 ~~~
 
-Now we simply need to create a new container from the base Grappa image. The `create_container` script will download the image, create a new container, and then attach your shell to the new container's shell:
+Now we simply need to create a new container from the base Grappa image. The `create_container.sh` script will download the image, create a new container, and then attach your shell to the new container's shell:
 
 ~~~ bash
-> ./create_container
+> ./create_container.sh
 Pulling repository uwsampa/grappa
 #> setup complete; hit <enter>
 docker /grappa >
 ~~~
 
-The `create_container` script provides other options to help setup your development environment, such as copying in SSH keys to use to push changes to Github. To see these options, run `./create_container --help`.
+The `create_container.sh` script provides other options to help setup your development environment, such as copying in SSH keys to use to push changes to Github. To see these options, run `./create_container.sh --help`.
 
 While attached to the running container, you can poke around at the Grappa source code. Try pulling the latest code into the container (this will often already be up-to-date, but just in case).
 
