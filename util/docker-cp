@@ -22,7 +22,6 @@ dst=${2/*:/}       # destination path (in container)
   
 # copy src files into temp directory
 tmp=$(mktemp -d)
-echo "@> tmp => $tmp"
 cp -r "$src" "$tmp"
 cd $tmp
 
