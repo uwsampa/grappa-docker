@@ -72,7 +72,7 @@ From this code, we can run `./configure` to create a new build, but we actually 
 # cd into the pre-existing build directory
 docker /grappa > cd build/Ninja+Release
 # build the demo `hello_world` app
-docker /grappa/build/Ninja+Release > cd ninja demo-hello_world
+docker /grappa/build/Ninja+Release > ninja demo-hello_world
 # run hello world with 2 processes:
 docker /grappa/build/Ninja+Release > bin/grappa_run --nnode=1 --ppn=2 -- applications/demos/hello_world.exe
 I0915 14:07:14.033941   396 Grappa.cpp:581]
