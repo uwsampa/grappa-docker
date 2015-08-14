@@ -35,15 +35,3 @@ cd /
 
 # clean up
 rm -rf openmpi-1.8.1* ruby-2.1.2*
-
-# build grappa-third-party libs
-git clone https://github.com/uwsampa/grappa.git /grappa
-
-cd grappa
-./configure --cc=$(which gcc) --gen=Ninja \
-              --third-party=/grappa-third-party \
-              --shmmax=$((1<<30)) && \
-  cd build/Ninja+Release && \
-  ninja
-
-cd /
