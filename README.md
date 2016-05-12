@@ -3,22 +3,10 @@ Running Grappa is super easy with Docker. Our docker image includes all the depe
 # Getting started
 
 ## Install docker
-First, [install Docker](https://docs.docker.com/installation) for your platform.
+First, [install Docker](https://docs.docker.com/engine/installation/) for your platform.
 
 ### OSX
-On OSX, this is made a bit more complicated because you'll actually have to setup a Linux virtual machine to run the docker daemon in. You can follow the instructions on their website, it's pretty easy. If you have [homebrew](http://brew.sh), it's as simple as:
-
-~~~ bash
-# if you don't have virtualbox already:
-> brew install caskroom/cask/brew-cask
-> brew cask install virtualbox
-# then install docker and its companion vm
-> brew install docker boot2docker
-# initialize and fire up the Linux VM we'll run docker in
-> boot2docker init
-> boot2docker up
-> export DOCKER_HOST=tcp://$(boot2docker ip 2>/dev/null):2375
-~~~
+On OSX, this is made a bit more complicated because you'll actually have to setup a Linux virtual machine to run the docker daemon in. You can follow the [instructions on their website](https://docs.docker.com/engine/installation/mac/), it's pretty easy. 
 
 ### Verify docker is running
 
